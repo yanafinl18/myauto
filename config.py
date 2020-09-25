@@ -1,0 +1,1 @@
+host = 'http://testbankok.akbars.ru/'
