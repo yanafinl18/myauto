@@ -14,7 +14,6 @@ def get_auth(session):
     r = requests.post(host + akbars_online_auth_login_init, data=data)
     assert r.status_code == 200
     session['AkbarsLoginOperationId'] = r.json()['Result']['AkbarsLoginOperationId']
-    #print('AkbarsLoginOperationId: ', session['AkbarsLoginOperationId'])
 
 
 def confirm_auth(session):
@@ -22,7 +21,6 @@ def confirm_auth(session):
             "DeviceToken": "2a9f3045-ef42-49ac-b538-c80eb7b5dabc"}
     r = requests.post(host + akbars_online_auth_login_confirm, data=data)
     session['RefreshToken'] = r.json()['Result']['RefreshToken']
-    #print('RefreshToken: ', session['RefreshToken'])
 
 
 def get_token(session):
