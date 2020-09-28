@@ -1,32 +1,37 @@
 import requests
 from data.endpoints import akbars_online_auth_login_init, akbars_online_auth_login_confirm, auth_create_session
 from data.users import protas
+from config import host
 
-host = 'http://testbankok.akbars.ru/'
+session = {
+    'AkbarsLoginOperationId': None,
+    'RefreshToken': None,
+    'SessionToken': None
+}
 
-
-def auth():
+def get_auth(session):
     data = {'Login': protas['Login'], 'Password': protas['Password']}
-    r = requests.post(host+akbars_online_auth_login_init, data = data )
+    r = requests.post(host + akbars_online_auth_login_init, data=data)
     assert r.status_code == 200
-    global AkbarsLoginOperationId
-    AkbarsLoginOperationId = r.json()['Result']['AkbarsLoginOperationId']
-    print('AkbarsLoginOperationId: ', AkbarsLoginOperationId)
+    session['AkbarsLoginOperationId'] = r.json()['Result']['AkbarsLoginOperationId']
+    #print('AkbarsLoginOperationId: ', session['AkbarsLoginOperationId'])
 
-def confirm():
-    data = {"AkbarsOnlineLoginOperationId": AkbarsLoginOperationId,"DeviceToken":"2a9f3045-ef42-49ac-b538-c80eb7b5dabc"}
+
+def confirm_auth(session):
+    data = {"AkbarsOnlineLoginOperationId": session['AkbarsLoginOperationId'],
+            "DeviceToken": "2a9f3045-ef42-49ac-b538-c80eb7b5dabc"}
     r = requests.post(host + akbars_online_auth_login_confirm, data=data)
-    global RefreshToken
-    RefreshToken = r.json()['Result']['RefreshToken']
-    print('RefreshToken: ', RefreshToken)
+    session['RefreshToken'] = r.json()['Result']['RefreshToken']
+    #print('RefreshToken: ', session['RefreshToken'])
 
-def sessiontoken():
-    data = {"DeviceToken":"2a9f3045-ef42-49ac-b538-c80eb7b5dabc","GeoLocation":{},"RefreshToken": RefreshToken}
+
+def get_token(session):
+    data = {"DeviceToken": "2a9f3045-ef42-49ac-b538-c80eb7b5dabc", "GeoLocation": {}, "RefreshToken": session['RefreshToken']}
     r = requests.post(host + auth_create_session, data=data)
-    SessionToken =r.json()['Result']['SessionToken']
-    print('SessionToken: ', SessionToken)
+    session['SessionToken'] = r.json()['Result']['SessionToken']
+    print('SessionToken: ', session['SessionToken'])
 
 
-auth()
-confirm()
-sessiontoken()
+get_auth(session)
+confirm_auth(session)
+get_token(session)
