@@ -3,4 +3,4 @@ akbars_online_auth_login_confirm = 'AkbarsOnlineAuth/LoginConfirm'
 auth_set_pin = 'auth/setPin'
 auth_create_session = 'auth/createsession'
 
-find_address = 'address/find'
+find_address = 'api/address/find'
