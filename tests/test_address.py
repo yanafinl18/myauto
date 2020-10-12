@@ -11,7 +11,7 @@ get_auth(session)
 confirm_auth(session)
 get_token(session)
 
-def test_get_address(session):
+def test_get_address():
     data = address_1
     # Когда передаешь json нельзя просто использовать data=data, где data это словарь.
     r = requests.post(host + find_address, json=data, headers={'SessionToken': session['SessionToken'],
