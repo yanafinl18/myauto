@@ -7,7 +7,6 @@ from config import host
 def get_auth(session):
     data = {'Login': protas['Login'], 'Password': protas['Password']}
     r = requests.post(host + akbars_online_auth_login_init, data=data)
-    assert r.status_code == 200
     session['AkbarsLoginOperationId'] = r.json()['Result']['AkbarsLoginOperationId']
 
 

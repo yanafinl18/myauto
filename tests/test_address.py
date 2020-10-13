@@ -18,7 +18,7 @@ def test_get_address():
                                                                'Content-Type': 'application/json; charset=utf-8',
                                                                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36 OPR/71.0.3770.138 (Edition Yx GX)'
                                                                })
-    assert r.status_code == 200
+
     assert r.json()['Result'][0]['StreetFias'] == "63b26927-9a86-4b80-bba9-02b37135c686", "Запрос на получение адреса не прошел или fias сменился "
     assert r.json()['Result'][0]['House'] == "11"
     assert r.json()['Result'][0]['Value'] == "г Казань, ул Чистопольская, д 11"
