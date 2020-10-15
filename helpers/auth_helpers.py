@@ -1,6 +1,7 @@
 from data.endpoints import akbars_online_auth_login_init, akbars_online_auth_login_confirm, auth_create_session
 from data.users import protas
 from models.http import parametrized_post
+from data.external_variables import default_device_token
 
 
 def get_auth(session):
@@ -17,7 +18,7 @@ def confirm_auth(session):
 
 
 def get_token(session):
-    data = {"DeviceToken": "2a9f3045-ef42-49ac-b538-c80eb7b5dabc", "GeoLocation": {}, "RefreshToken": session['RefreshToken']}
+    data = {"DeviceToken": default_device_token, "GeoLocation": {}, "RefreshToken": session['RefreshToken']}
     r = parametrized_post(endpoint=auth_create_session, body_payload=data)
     session['SessionToken'] = r.json()['Result']['SessionToken']
     print('SessionToken: ', session['SessionToken'])
