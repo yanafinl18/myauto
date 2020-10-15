@@ -12,7 +12,7 @@ def get_auth(session):
 
 def confirm_auth(session):
     data = {"AkbarsOnlineLoginOperationId": session['AkbarsLoginOperationId'],
-            "DeviceToken": "2a9f3045-ef42-49ac-b538-c80eb7b5dabc"}
+            "DeviceToken": default_device_token}
     r = parametrized_post(endpoint=akbars_online_auth_login_confirm, body_payload=data)
     session['RefreshToken'] = r.json()['Result']['RefreshToken']
 
