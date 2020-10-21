@@ -1,15 +1,16 @@
 from data.endpoints import akbars_online_auth_login_init, akbars_online_auth_login_confirm, auth_create_session, akbars_online_send_otp, get_otp_code
-from data.users import reimond
+from data.users import protas
 from models.http import parametrized_post, parametrized_get
 from data.external_variables import default_device_token
 
 
 def get_auth(session):
-    data = {'Login': reimond['Login'], 'Password': reimond['Password']}
+    data = {'Login': protas['Login'], 'Password': protas['Password']}
     r = parametrized_post(endpoint=akbars_online_auth_login_init, body_payload=data)
     session['AkbarsLoginOperationId'] = r.json()['Result']['AkbarsLoginOperationId']
-    if r.json()['Result']['NeedOtp'] == False:
-        confirm_auth(session)
+    if r.json()['Result']['NeedOtp'] == True:
+        send_otp(session)
+        get_otp(session)
 
     print(session['AkbarsLoginOperationId'])#для отладки
 
@@ -22,10 +23,12 @@ def send_otp(session):
     print(r.json()['Result']['Phone'])#для отладки
 
 def get_otp(session):
-    data = {'operationToken': 'IdentityAbo%'+session['AkbarsLoginOperationId']}
+    data = {'operationToken': 'IdentityAbo:'+session['AkbarsLoginOperationId']}
     r = parametrized_get(endpoint=get_otp_code, url_payload=data)
     assert r.json()['code'] is not None, "Otp code don't exist"
     session['OtpCode'] = r.json()['code']
+
+    print(r.json()['code'])
 
 def confirm_auth(session):
     data = {"AkbarsOnlineLoginOperationId": session['AkbarsLoginOperationId'],
@@ -42,7 +45,5 @@ def get_token(session):
 session = {}#для отладки
 
 get_auth(session)
-send_otp(session)
-get_otp(session)
 confirm_auth(session)
 get_token(session)
