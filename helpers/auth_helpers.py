@@ -2,6 +2,9 @@ from data.endpoints import akbars_online_auth_login_init, akbars_online_auth_log
 from data.users import reimond
 from models.http import parametrized_post, parametrized_get
 from data.external_variables import default_device_token
+from bs4 import BeautifulSoup
+import requests
+
 
 
 def get_auth(session):
@@ -31,6 +34,17 @@ def get_otp(session):
 
     print("Code: ", r.json()['code'])
 
+def get_otp_from_web():
+    r = requests.get("https://testbankok.akbars.ru/6f1f60ba")
+    html = r.content # чтение и сохранение
+    soup = BeautifulSoup(html, "html.parser") # парсер
+    otp = soup.find("table", id="Confirms")
+    otp2 = otp.select("tr:nth-child(1)> td.col-md-8 > div > span")  #тут не пойму как выборку из таблицы сделать и я просто выбираю 1 элемент что заведемо неверно
+    print(otp2)
+    print(type(otp2)) # как у данного типа bs4.element.ResultSet   произвести выборку элементов,  чтобы выдрать код из полученного ответа
+
+
+
 def confirm_auth(session):
     if session['NeedOtp'] == True:
         data = {"AkbarsOnlineLoginOperationId": session['AkbarsLoginOperationId'],
@@ -49,6 +63,7 @@ def get_token(session):
 
 session = {}#для отладки
 
-get_auth(session)
-confirm_auth(session)
-get_token(session)
+#get_auth(session)
+#confirm_auth(session)
+#get_token(session)
+get_otp_from_web()
