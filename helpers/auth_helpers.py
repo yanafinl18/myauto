@@ -4,6 +4,7 @@ from models.http import parametrized_post, parametrized_get
 from data.external_variables import default_device_token
 from bs4 import BeautifulSoup
 import requests
+import re
 
 
 
@@ -24,7 +25,7 @@ def send_otp(session):
     r = parametrized_post(endpoint=akbars_online_send_otp, body_payload=data)
     assert r.json()['Result']['Phone'] is not None, "Otp don't send"
 
-    print("Phone: ",r.json()['Result']['Phone'])#для отладки
+    print("Phone: ", r.json()['Result']['Phone'])#для отладки
 
 def get_otp(session):
     data = {'operationToken': 'IdentityAbo:'+session['AkbarsLoginOperationId']}
@@ -34,14 +35,19 @@ def get_otp(session):
 
     print("Code: ", r.json()['code'])
 
-def get_otp_from_web():
+
+
+# попытка получения otp с веб страницы
+def get_otp_from_web(session):
     r = requests.get("https://testbankok.akbars.ru/6f1f60ba")
     html = r.content # чтение и сохранение
     soup = BeautifulSoup(html, "html.parser") # парсер
     otp = soup.find("table", id="Confirms")
-    otp2 = otp.select("tr:nth-child(1)> td.col-md-8 > div > span")  #тут не пойму как выборку из таблицы сделать и я просто выбираю 1 элемент что заведемо неверно
-    print(otp2)
-    print(type(otp2)) # как у данного типа bs4.element.ResultSet   произвести выборку элементов,  чтобы выдрать код из полученного ответа
+    otp2 = otp.select("tr:nth-child(1)> td.col-md-8 > div > span")
+    print(otp2[0])
+    reg = re.findall('[0-9]+', str(otp2[0]))  # выборка цифр
+    print("OTPCode: ", reg)
+    session['OtpCode'] = reg
 
 
 
@@ -63,7 +69,6 @@ def get_token(session):
 
 session = {}#для отладки
 
-#get_auth(session)
-#confirm_auth(session)
-#get_token(session)
-get_otp_from_web()
+get_auth(session)
+confirm_auth(session)
+get_token(session)
