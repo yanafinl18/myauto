@@ -13,7 +13,7 @@ session = Session(protas)
 def test_get_address(self, session):
 
 
-    r = parametrized_post(endpoint=find_address, body_payload=address_1, header_payload={'SessionToken': session_key,
+    r = parametrized_post(endpoint=find_address, body_payload=address_1, header_payload={'SessionToken': session.session_key,
                                                                'Content-Type': 'application/json; charset=utf-8',
                                                                'User-Agent': default_user_agent
                                                                })

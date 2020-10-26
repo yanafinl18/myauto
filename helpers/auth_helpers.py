@@ -33,6 +33,7 @@ class Session:
             get_otp(self.session)
 
 
+
     def send_otp(self):
         data = {'AkbarsOnlineLoginOperationId': self.session['AkbarsLoginOperationId']}
         r = parametrized_post(endpoint=akbars_online_send_otp, body_payload=data)
