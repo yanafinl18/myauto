@@ -1,15 +1,19 @@
 from data.endpoints import find_address
 from data.data_address import address_1
 from helpers.auth_helpers import get_auth, confirm_auth, get_token
+from helpers.auth_helpers import Session
 from models.http import parametrized_post
 from data.external_variables import default_user_agent
 
 
-session = {}
 
-get_auth(session)
-confirm_auth(session)
-get_token(session)
+session = Session(protas)
+#session = {}
+#get_auth(session)
+#confirm_auth(session)
+#get_token(session)
+
+
 
 def test_get_address():
 
