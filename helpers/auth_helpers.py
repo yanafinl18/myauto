@@ -16,9 +16,9 @@ class Session:
         }
 
     def CreateSession(self):
-        get_auth(self.session)
-        confirm_auth(self.session)
-        get_token(self.session)
+        self.get_auth()
+        self.confirm_auth()
+        self.get_token()
         return self.session_key
 
 

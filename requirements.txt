@@ -1,5 +1,6 @@
 atomicwrites==1.4.0
 attrs==20.2.0
+beautifulsoup4==4.9.3
 certifi==2020.6.20
 chardet==3.0.4
 colorama==0.4.3
@@ -13,5 +14,6 @@ pyparsing==2.4.7
 pytest==6.0.2
 requests==2.24.0
 six==1.15.0
+soupsieve==2.0.1
 toml==0.10.1
 urllib3==1.25.10

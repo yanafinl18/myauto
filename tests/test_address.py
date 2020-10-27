@@ -10,7 +10,7 @@ from data.users import protas
 
 session = Session(protas)
 
-def test_get_address(self, session):
+def test_get_address(session):
 
 
     r = parametrized_post(endpoint=find_address, body_payload=address_1, header_payload={'SessionToken': session.session_key,
