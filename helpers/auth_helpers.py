@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 import requests
 import re
 
+
 class Session:
     def __init__(self, current_user):
         self.current_user = current_user
@@ -15,7 +16,7 @@ class Session:
             'DeviceToken': default_device_token
         }
 
-    def CreateSession(self):
+    def create_session(self):
         self.get_auth()
         self.confirm_auth()
         self.get_token()
@@ -64,7 +65,7 @@ class Session:
         r = parametrized_post(endpoint=auth_create_session, body_payload=data)
         self.session_key = r.json()['Result']['SessionToken']
 
-"""
+
 # попытка получения otp с веб страницы
     def get_otp_from_web(self):
         r = requests.get("https://testbankok.akbars.ru/6f1f60ba")
@@ -76,12 +77,19 @@ class Session:
         reg = re.findall('[0-9]+', str(otp2[0]))  # выборка цифр
         print("OTPCode: ", reg)
         self.session['OtpCode'] = reg
-"""
+
+    def logout(self):
+        self.session_key = None
+        return self.session_key
+
+
 
 
 
 session = Session(protas)
 print(session.current_user) # Напечатает protas
 print(session.session_key) # Напечатает созданную сессию
-session.CreateSession()
+session.create_session()
 print(session.session_key) # вернет новое значение ключа
+session.logout() # обнуление ключа
+print(session.session_key)
