@@ -5,5 +5,8 @@ akbars_online_send_otp = 'AkbarsOnlineAuth/SendOtp'
 akbars_online_auth_login_confirm = 'AkbarsOnlineAuth/LoginConfirm'
 auth_set_pin = 'auth/setPin'
 auth_create_session = 'auth/createsession'
+analytics_info = 'api/analytics/info'
 
+deposit_rateinfo = 'api/deposit/rateinfo'
 find_address = 'api/address/find'
+

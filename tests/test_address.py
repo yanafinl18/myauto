@@ -2,7 +2,7 @@ from data.endpoints import find_address
 from data.data_address import address_1
 from models.http import parametrized_post
 from data.external_variables import default_user_agent
-import pytest
+
 
 
 def test_get_address(session):
