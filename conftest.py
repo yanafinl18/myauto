@@ -1,5 +1,6 @@
 import pytest
 import data.users as users
+from fixtures.auth_fixture import session
 
 @pytest.fixture(scope="session")
 def test_user():

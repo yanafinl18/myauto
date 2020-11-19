@@ -1,13 +1,11 @@
 from data.endpoints import find_address
 from data.data_address import address_1
-#from helpers.auth_helpers import get_auth, confirm_auth, get_token
-#from helpers.auth_helpers import Session
 from models.http import parametrized_post
 from data.external_variables import default_user_agent
 import pytest
 
-@pytest.mark.usefixtures()
-def test_get_address('test_user'):
+
+def test_get_address(session):
 
 
     r = parametrized_post(endpoint=find_address, body_payload=address_1, header_payload={'SessionToken': session.session_key,

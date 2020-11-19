@@ -30,8 +30,8 @@ class Session:
         self.session['AkbarsLoginOperationId'] = r.json()['Result']['AkbarsLoginOperationId']
         self.session['NeedOtp'] = r.json()['Result']['NeedOtp']
         if self.session['NeedOtp'] == True:
-            send_otp(self.session)
-            get_otp(self.session)
+            self.send_otp()
+            self.get_otp()
 
 
 
